@@ -3,8 +3,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
+const chatRouter = require('./chatio/router');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,10 +16,12 @@ require('./middleware/middleware')(app);
 app.use(express.static(path.join(__dirname, '..', '..', 'static')));
 
 // routes
+app.use('/chat', chatRouter);
+
 app.get('/', (req, res) => {
   res.render('index', 
-    {head: `Chat.io`, message: `Adrian's example socketio chat app`}
+    {head: `adrian.io`, message: `This is my new homepage. I'm tired of using frameworks like Jenkins. Just gonna do dis da hard <way className=""></way>`}
   );
-});
+})
 
 module.exports = app;
