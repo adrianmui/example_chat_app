@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import chat from './chatio'
 
-const rootReducer = combineReducers({chat})
+const reducers = combineReducers({chat})
 
-export default rootReducer
+export default reducers

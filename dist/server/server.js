@@ -20,7 +20,7 @@ app.use('/chat', chatRouter);
 
 app.get('/', (req, res) => {
   res.render('index', 
-    {head: `adrian.io`, message: `This is my new homepage. I'm tired of using frameworks like Jenkins. Just gonna do dis da hard <way className=""></way>`}
+    {head: `adrian.io`, message: `This is my new homepage. I'm tired of using frameworks like Jenkins. Just gonna do dis da hard way`}
   );
 })
 

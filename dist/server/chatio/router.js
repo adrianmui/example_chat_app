@@ -1,46 +1,50 @@
-import Express from 'express';
-import path from 'path';
+require('babel-register')({
+    presets: ['es2015', 'react']
+})
 
+import path from 'path'
+import React from 'react'
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import { renderToString } from 'react-dom/server'
+import {renderToString} from 'react-dom/server'
 
-import counterApp from './../../browser/reducers/'
+import App from './../../browser/App.jsx'
+import store from './../../browser/store'
 
-const app = Express();
+const router = require('express').Router()
 
-app.use(handleRender);
+router.use(handleRender);
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.render( path.join(__dirname, '..', 'views', 'chatio'), 
     {head: `Chat.io`, message: `Adrian's example socketio chat app`}
-  );
-});
+  )
+})
 
 function handleRender(req, res) {
-   /* ... */ 
-  const store = createStore(counterApp)
-
   // Render the component to a string
+  console.log('line 33: ', store.getState())
+  
   const html = renderToString(
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App store={store}/>
   )
+  
+  console.log('html is done rendereded to string');
 
   // Grab the initial state from our Redux store
   const preloadedState = store.getState()
 
   // Send the rendered page back to the client
-  res.send(renderFullPage(html, preloadedState))
+  res.send('hello handle render');
+  // res.send(renderFullPage(html, preloadedState))
 }
-
+ 
 function renderFullPage(html, preloadedState) {
   return `
     <!doctype html>
     <html>
       <head>
-        <title>Redux Universal Example</title>
+        <title>React Redux SPA</title>
       </head>
       <body>
         <div id="root">${html}</div>
@@ -55,4 +59,4 @@ function renderFullPage(html, preloadedState) {
   `
 }
 
-module.exports = app;
+module.exports = router;

@@ -2,11 +2,16 @@ import React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 
-import AppRouter from './router.jsx'
+import {Router, browserHistory, Route} from 'react-router';
+
+import AppRoot from './AppRoot'
 
 const App = ({store}) => (
   <Provider store={store}>
-    <AppRouter/>
+    <Router history={browserHistory}>
+      <Route path="/" component={AppRoot}>
+      </Route>
+    </Router>
   </Provider>
 )
 

@@ -1,6 +1,6 @@
-import * as actions from '../constants/ActionTypes';
+import * as actions from '../constants/ActionTypes'
 
-const todos = (state = [], {type, payload}) => {
+const chat = (state = [ {id: 1, desc: 'welcome to adrian-chat'}], {type, payload}) => {
   switch(type) {
     case actions.ADD_CHAT:
       return [...state, payload]
@@ -19,3 +19,5 @@ const todos = (state = [], {type, payload}) => {
       return state
   }
 }
+
+export default chat
