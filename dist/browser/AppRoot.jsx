@@ -1,22 +1,16 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router';
-// import Landing from './Landing';
-// import PropTypes from 'prop-types';
+import React, {Component} from 'react'
 
-const AppRoot = () => {
-  return (
-    <div>
-      <nav className="navbar">
-        <a href="/" className="navbar-brand">React</a>
-        <a href="/chat" className="navbar-brand">Chat</a>
-      </nav>
-    </div>
-  )
+class AppRoot extends Component {
+  render() {
+    return (
+      <div>
+        <nav className="navbar">
+          <a href="/" className="navbar-brand">PeopleGrove React</a>
+        </nav>
+        {this.props.children}
+      </div>
+    )
+  }
 }
 
-// AppRoot.propTypes = {
-//   children: PropTypes.element.isRequired
-// }
-
-export default AppRoot;
-
+export default AppRoot

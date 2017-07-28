@@ -19,7 +19,7 @@ if (module.hot) {
   module.hot.accept('./App', () => {
     render(
       <AppContainer>
-        <App />
+        <App store={store}/>
       </AppContainer>,
       document.getElementById('app')
     )

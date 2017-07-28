@@ -4,59 +4,36 @@ require('babel-register')({
 
 import path from 'path'
 import React from 'react'
+
+/**redux */
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import {renderToString} from 'react-dom/server'
-
-import App from './../../browser/App'
 import store from './../../browser/store'
 
+/**react server */
+import {renderToString} from 'react-dom/server'
+import {StaticRouter} from 'react-router'
+
+import Layout from './../../browser/Layout'
 const router = require('express').Router()
 
-router.use(handleRender);
+// router.use(handleRender);
 
-router.get('/', (req, res) => {
-  res.render( path.join(__dirname, '..', 'views', 'chatio'), 
-    {head: `Chat.io`, message: `Adrian's example socketio chat app`}
+router.get('*', (req, res, next) => {
+  const context = {}
+  const html = renderToString(
+    <StaticRouter
+      location={req.url}
+      context={context}>
+      <Layout location={req.url}/>
+    </StaticRouter>
+  )
+
+
+  res.render( 
+    path.join(__dirname, '..', 'views', 'chatio'), 
+    {html} 
   )
 })
-
-function handleRender(req, res) {
-  // Render the component to a string
-  console.log('line 26: ', store.getState())
-
-  const html = renderToString(
-    <App store={store}/>
-  )
-
-  
-  console.log('html is done rendereded to string');
-
-  // Grab the initial state from our Redux store
-  const preloadedState = store.getState()
-
-  // Send the rendered page back to the client
-  res.send(renderFullPage(html, preloadedState))
-}
- 
-function renderFullPage(html, preloadedState) {
-  return `
-    <!doctype html>
-    <html>
-      <head>
-        <title>React Redux SPA</title>
-      </head>
-      <body>
-        <div id="app">${html}</div>
-        <script>
-          // WARNING: See the following for security issues around embedding JSON in HTML:
-          // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-        </script>
-        <script src="/static/js/bundle.js"></script>
-      </body>
-    </html>
-  `
-}
 
 module.exports = router;
