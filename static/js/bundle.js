@@ -62,7 +62,7 @@
 
 	var _store2 = _interopRequireDefault(_store);
 
-	var _reactHotLoader = __webpack_require__(268);
+	var _reactHotLoader = __webpack_require__(269);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27941,7 +27941,7 @@
 
 	var Layout = function Layout(_ref) {
 	  var _ref$location = _ref.location,
-	      location = _ref$location === undefined ? '/' : _ref$location;
+	      location = _ref$location === undefined ? '/chat' : _ref$location;
 
 	  return _react2.default.createElement(
 	    _reactRouterDom.Switch,
@@ -27970,57 +27970,64 @@
 /* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _store = __webpack_require__(263);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	var _Chat = __webpack_require__(268);
+
+	var _Chat2 = _interopRequireDefault(_Chat);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var AppRoot = function AppRoot() {
+	  console.log(_store2.default.getState());
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	  var temp = function temp() {
+	    console.log('hi');
+	  };
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var AppRoot = function (_Component) {
-	  _inherits(AppRoot, _Component);
-
-	  function AppRoot() {
-	    _classCallCheck(this, AppRoot);
-
-	    return _possibleConstructorReturn(this, (AppRoot.__proto__ || Object.getPrototypeOf(AppRoot)).apply(this, arguments));
-	  }
-
-	  _createClass(AppRoot, [{
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'nav',
+	      { className: 'navbar' },
+	      _react2.default.createElement(
+	        'a',
+	        { href: '/', className: 'navbar-brand' },
+	        'PeopleGrove React'
+	      )
+	    ),
+	    _store2.default.getState().chat.map(function (chat) {
+	      console.log('chat map', chat);
+	      return _react2.default.createElement(_Chat2.default, { text: chat.desc,
+	        onClick: _store2.default.dispatch({ type: 'DELETE_CHAT', payload: chat })
+	      });
+	    }),
+	    _react2.default.createElement('ul', { id: 'messages' }),
+	    _react2.default.createElement(
+	      'form',
+	      { action: '' },
+	      _react2.default.createElement('input', { id: 'm' }),
+	      _react2.default.createElement(
+	        'button',
 	        null,
-	        _react2.default.createElement(
-	          "nav",
-	          { className: "navbar" },
-	          _react2.default.createElement(
-	            "a",
-	            { href: "/", className: "navbar-brand" },
-	            "PeopleGrove React"
-	          )
-	        ),
-	        this.props.children
-	      );
-	    }
-	  }]);
-
-	  return AppRoot;
-	}(_react.Component);
+	        'Send'
+	      )
+	    )
+	  );
+	};
 
 	var _default = AppRoot;
 	exports.default = _default;
@@ -28031,9 +28038,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(AppRoot, "AppRoot", "/Users/adrianmui/Desktop/express_socketio/dist/browser/AppRoot.jsx");
+	  __REACT_HOT_LOADER__.register(AppRoot, 'AppRoot', '/Users/adrianmui/Desktop/express_socketio/dist/browser/AppRoot.jsx');
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/adrianmui/Desktop/express_socketio/dist/browser/AppRoot.jsx");
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/adrianmui/Desktop/express_socketio/dist/browser/AppRoot.jsx');
 	}();
 
 	;
@@ -28177,6 +28184,7 @@
 	        return line.id === payload.id ? payload : line;
 	      });
 	    case actions.DELETE_CHAT:
+	      console.log('hi');
 	      return state.filter(function (line) {
 	        return line.id !== payload.id;
 	      });
@@ -28239,33 +28247,86 @@
 /* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(269);
+	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes = __webpack_require__(208);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Chat = function Chat(props) {
+	  var onclick = props.onclick,
+	      text = props.text;
+
+	  console.log('chat', props);
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'hi', onClick: onclick },
+	    text
+	  );
+	};
+
+	Chat.PropTypes = {
+	  onclick: _propTypes2.default.func.isRequired,
+	  text: _propTypes2.default.string.isRequired
+	};
+
+	var _default = Chat;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(Chat, 'Chat', '/Users/adrianmui/Desktop/express_socketio/dist/browser/components/Chat.jsx');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/adrianmui/Desktop/express_socketio/dist/browser/components/Chat.jsx');
+	}();
+
+	;
 
 /***/ }),
 /* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* eslint-disable global-require */
+	module.exports = __webpack_require__(270);
 
-	'use strict';
-
-	if (true) {
-	  module.exports = __webpack_require__(270);
-	} else {
-	  module.exports = require('./index.dev');
-	}
 
 /***/ }),
 /* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	/* eslint-disable global-require */
+
 	'use strict';
 
-	module.exports.AppContainer = __webpack_require__(271);
+	if (true) {
+	  module.exports = __webpack_require__(271);
+	} else {
+	  module.exports = require('./index.dev');
+	}
 
 /***/ }),
 /* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports.AppContainer = __webpack_require__(272);
+
+/***/ }),
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* eslint-disable global-require */
@@ -28273,13 +28334,13 @@
 	'use strict';
 
 	if (true) {
-	  module.exports = __webpack_require__(272);
+	  module.exports = __webpack_require__(273);
 	} else {
 	  module.exports = require('./AppContainer.dev');
 	}
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* eslint-disable react/prop-types */

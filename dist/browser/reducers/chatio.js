@@ -9,6 +9,7 @@ const chat = (state = [ {id: 1, desc: 'welcome to adrian-chat'}], {type, payload
         (line.id === payload.id) ? payload : line
       )
     case actions.DELETE_CHAT:
+      console.log('hi');
       return state.filter(line =>
         (line.id !== payload.id)
       )

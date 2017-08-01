@@ -17,8 +17,6 @@ import {StaticRouter} from 'react-router'
 import Layout from './../../browser/Layout'
 const router = require('express').Router()
 
-// router.use(handleRender);
-
 router.get('*', (req, res, next) => {
   const context = {}
   const html = renderToString(
@@ -29,10 +27,12 @@ router.get('*', (req, res, next) => {
     </StaticRouter>
   )
 
-
   res.render( 
     path.join(__dirname, '..', 'views', 'chatio'), 
-    {html} 
+    { 
+      head: "chat.io",
+      message: "this chat app is in progress",
+      html} 
   )
 })
 
