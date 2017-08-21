@@ -4,8 +4,6 @@ import store from './store'
 import Chat from './components/Chat'
 
 const AppRoot = () => {
-  
-
   const deleteLine = payload => {
     console.log('before: ', store.getState().chat);
     return store.dispatch({type: 'DELETE_CHAT', payload})
@@ -18,12 +16,9 @@ const AppRoot = () => {
       </nav>
 
       {
-        store.getState().chat.map(chat => {
-          console.log('chat map', chat)
-          return  (
-            <Chat chatId={chat.id} text={chat.desc} onClick={() => deleteLine(chat)}/> 
-          )
-        })
+        store.getState().chat.map(chat => (
+          <Chat chatId={chat.id} text={chat.desc} onClick={() => deleteLine(chat)}/> 
+        ))
       }
       
       <ul id="messages"></ul>
