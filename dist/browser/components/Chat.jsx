@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Chat = (props) => {
-  const {onclick, text} = props
-  console.log('chat', props)
+const Chat = props => {
+  const {onClick, text, chatId} = props
+  
   return (
-  <div className="hi" onClick={onclick}>
-    { text }
-    </div>
+  <a key={chatId} onClick={onClick}>
+    { text }   
+    <br/>
+  </a>
   )
 }
 

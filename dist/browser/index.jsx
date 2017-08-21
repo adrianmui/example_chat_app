@@ -7,21 +7,21 @@ import store from './store'
 
 import {AppContainer} from 'react-hot-loader'
 
-render(
+const initial = () => render(
   <AppContainer>
     <App store={store}/>
   </AppContainer>,
   document.getElementById('app')
 )
 
+
+
 /** hot reload components */
 if (module.hot) {
   module.hot.accept('./App', () => {
-    render(
-      <AppContainer>
-        <App store={store}/>
-      </AppContainer>,
-      document.getElementById('app')
-    )
+    initial()
   })
 }
+
+initial()
+store.subscribe(initial)

@@ -4,10 +4,11 @@ import store from './store'
 import Chat from './components/Chat'
 
 const AppRoot = () => {
-  console.log(store.getState());
+  
 
-  let temp = function() {
-    console.log('hi')
+  const deleteLine = payload => {
+    console.log('before: ', store.getState().chat);
+    return store.dispatch({type: 'DELETE_CHAT', payload})
   }
 
   return (
@@ -17,17 +18,17 @@ const AppRoot = () => {
       </nav>
 
       {
-        store.getState().chat.map( chat => {
-          console.log('chat map', chat);
-          return  (<Chat text={chat.desc}
-            onClick={store.dispatch({type: 'DELETE_CHAT', payload: chat})}
-          />)
+        store.getState().chat.map(chat => {
+          console.log('chat map', chat)
+          return  (
+            <Chat chatId={chat.id} text={chat.desc} onClick={() => deleteLine(chat)}/> 
+          )
         })
       }
       
       <ul id="messages"></ul>
       <form action="">
-        <input id="m" />
+        <input id="m"/>
         <button>Send</button>
       </form>
     </div>

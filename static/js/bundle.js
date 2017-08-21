@@ -66,28 +66,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	(0, _reactDom.render)(_react2.default.createElement(
-	  _reactHotLoader.AppContainer,
-	  null,
-	  _react2.default.createElement(_App2.default, { store: _store2.default })
-	), document.getElementById('app'));
+	var initial = function initial() {
+	  return (0, _reactDom.render)(_react2.default.createElement(
+	    _reactHotLoader.AppContainer,
+	    null,
+	    _react2.default.createElement(_App2.default, { store: _store2.default })
+	  ), document.getElementById('app'));
+	};
 
 	/** hot reload components */
 	if (false) {
 	  module.hot.accept('./App', function () {
-	    (0, _reactDom.render)(_react2.default.createElement(
-	      _reactHotLoader.AppContainer,
-	      null,
-	      _react2.default.createElement(_App2.default, { store: _store2.default })
-	    ), document.getElementById('app'));
+	    initial();
 	  });
 	}
+
+	initial();
+	_store2.default.subscribe(initial);
 	;
 
 	var _temp = function () {
 	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
 	    return;
 	  }
+
+	  __REACT_HOT_LOADER__.register(initial, 'initial', '/Users/adrianmui/Desktop/express_socketio/dist/browser/index.jsx');
 	}();
 
 	;
@@ -27991,10 +27994,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var AppRoot = function AppRoot() {
-	  console.log(_store2.default.getState());
 
-	  var temp = function temp() {
-	    console.log('hi');
+	  var deleteLine = function deleteLine(payload) {
+	    console.log('before: ', _store2.default.getState().chat);
+	    return _store2.default.dispatch({ type: 'DELETE_CHAT', payload: payload });
 	  };
 
 	  return _react2.default.createElement(
@@ -28011,9 +28014,9 @@
 	    ),
 	    _store2.default.getState().chat.map(function (chat) {
 	      console.log('chat map', chat);
-	      return _react2.default.createElement(_Chat2.default, { text: chat.desc,
-	        onClick: _store2.default.dispatch({ type: 'DELETE_CHAT', payload: chat })
-	      });
+	      return _react2.default.createElement(_Chat2.default, { chatId: chat.id, text: chat.desc, onClick: function onClick() {
+	          return deleteLine(chat);
+	        } });
 	    }),
 	    _react2.default.createElement('ul', { id: 'messages' }),
 	    _react2.default.createElement(
@@ -28069,6 +28072,7 @@
 
 	// const preloadedState = window.__PRELOADED_STATE__
 	// delete window.__PRELOADED_STATE__
+
 
 	var store = (0, _redux.createStore)(_reducers2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default)); //, preloadedState)
 
@@ -28170,8 +28174,19 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+	var defaultState = [{
+	  id: 1,
+	  desc: 'welcome to adrian\'s chaat corner'
+	}, {
+	  id: 2,
+	  desc: 'please type in your username or email'
+	}, {
+	  id: 3,
+	  desc: 'to connect to you i would like to first know where you\'re from'
+	}];
+
 	var chat = function chat() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [{ id: 1, desc: 'welcome to adrian-chat' }];
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
 	  var _ref = arguments[1];
 	  var type = _ref.type,
 	      payload = _ref.payload;
@@ -28184,7 +28199,10 @@
 	        return line.id === payload.id ? payload : line;
 	      });
 	    case actions.DELETE_CHAT:
-	      console.log('hi');
+	      console.log('delete chat');
+	      console.log('after: ', state.filter(function (line) {
+	        return line.id !== payload.id;
+	      }));
 	      return state.filter(function (line) {
 	        return line.id !== payload.id;
 	      });
@@ -28204,6 +28222,8 @@
 	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
 	    return;
 	  }
+
+	  __REACT_HOT_LOADER__.register(defaultState, 'defaultState', '/Users/adrianmui/Desktop/express_socketio/dist/browser/reducers/chatio.js');
 
 	  __REACT_HOT_LOADER__.register(chat, 'chat', '/Users/adrianmui/Desktop/express_socketio/dist/browser/reducers/chatio.js');
 
@@ -28264,14 +28284,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Chat = function Chat(props) {
-	  var onclick = props.onclick,
-	      text = props.text;
+	  var onClick = props.onClick,
+	      text = props.text,
+	      chatId = props.chatId;
 
-	  console.log('chat', props);
+
 	  return _react2.default.createElement(
-	    'div',
-	    { className: 'hi', onClick: onclick },
-	    text
+	    'a',
+	    { key: chatId, onClick: onClick },
+	    text,
+	    _react2.default.createElement('br', null)
 	  );
 	};
 

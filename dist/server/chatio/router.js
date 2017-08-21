@@ -6,8 +6,8 @@ import path from 'path'
 import React from 'react'
 
 /**redux */
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
 import store from './../../browser/store'
 
 /**react server */
@@ -32,7 +32,8 @@ router.get('*', (req, res, next) => {
     { 
       head: "chat.io",
       message: "this chat app is in progress",
-      html} 
+      html
+    } 
   )
 })
 
