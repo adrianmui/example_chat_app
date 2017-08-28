@@ -27,6 +27,7 @@
     "express": "^4.15.3",
     "history": "^4.6.3",
     "http": "0.0.0",
+    "material-ui": "^1.0.0-beta.6",
     "method-override": "^2.3.9",
     "morgan": "^1.8.2",
     "path": "^0.12.7",

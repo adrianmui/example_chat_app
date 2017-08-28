@@ -11,22 +11,14 @@
   #messages li:nth-child(odd) { background: #eee; }
 </style>
 
+<body>
 <div id="app">
   <%= html %>
 </div>
-    
-<script src="/js/bundle.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+</body>
+
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-    $(function () {
-      var socket = io();
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-    });
-</script>
+<script src="/socket.io/socket.io.js"></script>    
+<script src="/js/bundle.js"></script>
 
 <% include tail %>

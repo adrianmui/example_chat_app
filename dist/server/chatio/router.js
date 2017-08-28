@@ -31,7 +31,6 @@ router.get('*', (req, res, next) => {
     path.join(__dirname, '..', 'views', 'chatio'), 
     { 
       head: "chat.io",
-      message: "this chat app is in progress",
       html
     } 
   )
